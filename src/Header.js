@@ -13,7 +13,7 @@ function Header ( {onSearch}){
 
     return (
         <div className="header">
-            <Link to="/"><img className="logo" src={'../Europe-Logo-main-blue.png'} alt="Europe.com Logo"></img></Link>
+            <Link to="/"><img className="logo" src={'/Europe-Logo-main-blue.png'} alt="Europe.com Logo"></img></Link>
             <form className="search" onSubmit={handleSearch} role="search">
                 <div className="form-holder">
                     <input onChange={(e) => setLocalSearch(e.target.value)} value={localSearch} id="search" type="text" placeholder="Search destinations..." />

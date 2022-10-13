@@ -15,7 +15,7 @@ function Filters({url, onFilterSubmit}) {
   }
   function handleClick (e){
     e.preventDefault()
-    if (e.target.value === "hotels" || e.target.value === "restaurants" ||e.target.value === "attractions" || e.target.value === "geos"){
+    if (e.target.value === "hotels" || e.target.value === "restaurants" || e.target.value === "attractions" || e.target.value === "geos"){
       setClickCategory(e.target.value)
     }
     else{
@@ -38,7 +38,7 @@ function Filters({url, onFilterSubmit}) {
       onFilterSubmit(dropdownCountry, dropdownCity, clickCategory)
     }
     else{
-      alert("Please fill in all fields before continuing.")
+      alert(`Please fill in all fields before continuing.\n ${dropdownCountry ? dropdownCity ? clickCategory ? "" : "Missing field: Category" : "Missing field: City" : "Missing field: Country"}`)
     } 
   }
   

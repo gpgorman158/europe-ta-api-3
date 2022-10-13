@@ -8,13 +8,13 @@ import Country from './Country';
 import Activity from './Activity';
 import SearchResults from './SearchResults';
 import Filters from './Filters';
-import {latLong} from './global.js'
+import {latLong, urlBack, urlFront} from './global.js'
 
 import axios from 'axios';
 
 function App() {
   
-  const [url, setUrl] = useState("http://localhost:8000/")
+  const [url, setUrl] = useState(`${urlFront}`)
   const [search, setSearch] = useState("")
   const [searchValue, setSearchValue] = useState(null)
   const [filterValue, setFilterValue] = useState(null)
@@ -38,17 +38,14 @@ function App() {
 
   function onSearch (search) {
     setSearch(search)
-    let abortController = new AbortController();
-    const options = {method: 'GET', url: `http://localhost:8000/search-back`, params: {search: search}, headers: {Accept: 'application/json'}};
+  
+    const options = {method: 'GET', url: `${urlBack}/search-back`, params: {search: search}, headers: {Accept: 'application/json'}};
 
     axios.request(options).then((response) => {
       setSearchValue(response.data)
       navigate(`/search/${search}`)
     })  
     .catch(err => console.error(err));
-    return () => {  
-      abortController.abort();  
-    }
   }
 
   function onCountryClick(newURL){
@@ -60,17 +57,13 @@ function App() {
     setSearchValue(null)
     let coordinates = latLong.filter( item => item.city === city)
 
-    let abortController = new AbortController();
-    const options = {method: 'GET', url: `http://localhost:8000/nearby-category-back`, params: {lat: coordinates[0].lat, long:coordinates[0].long, category:category}, headers: {Accept: 'application/json'}};
+    const options = {method: 'GET', url: `${urlBack}/nearby-category-back`, params: {lat: coordinates[0].lat, long:coordinates[0].long, category:category}, headers: {Accept: 'application/json'}};
 
     axios.request(options).then((response) => {
       setFilterValue(response.data)
       navigate(`search/${country}-${city}-${category}`)
     })  
     .catch(err => console.error(err));
-    return () => {  
-      abortController.abort();  
-    }
   }
 
   return (

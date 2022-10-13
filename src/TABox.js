@@ -1,36 +1,34 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import {urlBack} from './global.js'
 
-function TABox ( {locationId, getFullDetails, getFullImages}) {
+function TABox ( {locationId}) {
     const [item, setItem] = useState(null)
     const [itemImages, setItemImages] = useState(null)
 
     useEffect( () => {
-        let abortController = new AbortController()
 
-        const options = {method: 'GET', url: `http://localhost:8000/details`, params: {location: locationId}, headers: {Accept: 'application/json'}};
+        const options = {method: 'GET', url: `${urlBack}/details`, params: {location: locationId}, headers: {Accept: 'application/json'}};
         axios.request(options).then((response) => {
             setItem(response.data)
         })  
         .catch(err => console.error(err));
        
-        const options2 = {method: 'GET', url: `http://localhost:8000/images`, params: {location: locationId}, headers: {Accept: 'application/json'}};
+        const options2 = {method: 'GET', url: `${urlBack}/images`, params: {location: locationId}, headers: {Accept: 'application/json'}};
         axios.request(options2).then((response) => {
             setItemImages(response.data)
         })  
         .catch(err => console.error(err));
 
-        return () => {  
-            abortController.abort();  
-        }
     }, [locationId])
 
     return (
+
         
         <div className="TABox">
             {item !== null && itemImages !== null ? <>
             <div className="TA-images">
-                <div>{itemImages.data[0] && itemImages.data[0].images ? <img src={itemImages.data[0].images.large.url} alt={item.name}/> : <img src={'../Europe-Logo-main-blue.png'} alt="Europe.com Logo"/>}</div>
+                <div>{itemImages.data[0] && itemImages.data[0].images ? <img src={itemImages.data[0].images.large.url} alt={item.name}/> : <img src={'/Europe-Logo-main-blue.png'} alt="Europe.com Logo"/>}</div>
                 
             </div>
             <div className="TA-content">
